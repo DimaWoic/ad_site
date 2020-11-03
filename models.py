@@ -44,7 +44,8 @@ class User(AbstractUser):
 
 
 class Category(models.Model):
-    name = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+    cat = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=50, verbose_name='имя категории')
 
     class Meta:
         verbose_name = 'категория'
@@ -55,7 +56,7 @@ class Category(models.Model):
 
 
 class AddAction(models.Model):
-    action = models.CharField(max_length=10, verbose_name='вид объявления')
+    action = models.CharField(max_length=20, verbose_name='вид объявления')
 
     class Meta:
         verbose_name = 'вид объявления'
@@ -66,11 +67,13 @@ class AddAction(models.Model):
 
 
 class AdBoard(models.Model):
+    image = models.ImageField(verbose_name='изображение', blank=True)
     title = models.CharField(max_length=150, verbose_name='заголовок')
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='город, край', null=True)
     phone = PhoneNumberField(verbose_name='номер телефона')
     description = models.TextField(max_length=500, verbose_name='текст обявления')
     action = models.ForeignKey(AddAction, on_delete=models.CASCADE, verbose_name='вид объявления', null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='категория', null=True)
 
     class Meta:
         verbose_name = 'объявление'
