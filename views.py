@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import AdBoard, User
-from .forms import RegForm, ChangeUserInfo
+from . import forms
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import TemplateView
@@ -20,7 +20,7 @@ def index(request):
 
 
 class RegistrationView(CreateView):
-    form_class = RegForm
+    form_class = forms.RegForm
     template_name = 'board/registration.html'
 
     def get_success_url(self, **kwargs):
@@ -55,10 +55,50 @@ class UserLK(TemplateView, LoginRequiredMixin):
     template_name = 'board/lk.html'
 
 
-class ChangeUserInfoView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
-    model = User
-    form_class = ChangeUserInfo
-    success_message = 'Личные данные изменены'
-    success_url = reverse_lazy('lk')
+class ChangeUserInfoView(LoginRequiredMixin, TemplateView):
     template_name = 'board/change_info.html'
 
+
+class SettingsView(LoginRequiredMixin, TemplateView):
+    template_name = 'board/settings.html'
+
+
+class ChangeUserNameView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+    model = User
+    form_class = forms.ChangeUserName
+    success_message = 'Имя и фамилия изменены'
+    success_url = reverse_lazy('change_user_info')
+    template_name = 'board/change_name.html'
+
+
+class ChangeUserEmailView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+    model = User
+    form_class = forms.ChangeUserEmailForm
+    success_message = 'Электронная почта изменена'
+    success_url = reverse_lazy('change_user_info')
+    template_name = 'board/change_email.html'
+
+
+class ChangeUserCityView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+    model = User
+    form_class = forms.ChangeUserCityForm
+    success_message = 'Ваш город изменён'
+    success_url = reverse_lazy('change_user_info')
+    template_name = 'board/change_city.html'
+
+
+class ChangeUserPhoneView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+    model = User
+    form_class = forms.ChangeUserPhoneForm
+    success_message = 'Номер телефона изменён'
+    success_url = reverse_lazy('change_user_info')
+    template_name = 'board/change_phone.html'
+
+
+class ChangePasswordView(PasswordChangeView, LoginRequiredMixin):
+    template_name = 'board/change_password.html'
+    success_url = reverse_lazy('pass_change_done')
+
+
+class ChangePasswordDoneView(PasswordChangeDoneView, LoginRequiredMixin):
+    template_name = 'board/password_change_done.html'

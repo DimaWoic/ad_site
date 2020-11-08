@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AdBoard, AddAction, AbstractUser, Area, City, Country, Category
+from .models import AdBoard, AddAction, AbstractUser, Area, City, Country, Category, User
 
 # Register your models here.
 
@@ -30,6 +30,11 @@ class CategoryAdmin(admin.ModelAdmin):
     model = Category
 
 
+class UserAdmin(admin.ModelAdmin):
+    model = User
+
+
+admin.site.register(User, UserAdmin)
 admin.site.register(AdBoard, AdboardAdmin)
 admin.site.register(AddAction, AddActionAdmin)
 admin.site.register(Area, AreaAdmin)

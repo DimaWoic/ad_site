@@ -6,7 +6,7 @@
 </head>
 <body>
 {% if user.is_authenticated %}
-<p>Привет {{ user.first_name }} <a href="{% url 'logout' %}">Выйти из аккаунта</a> <a href="{% url 'login' %}">Личный кабинет</a></p>
+<p>Привет {{ user.first_name }} <a href="{% url 'logout' %}">Выйти из аккаунта</a> <a href="{% url 'lk' %}">Личный кабинет</a></p>
 {% else %}
 <p><a href="{% url 'login' %}">Личный кабинет</a> <a href="{% url 'registration' %}">Создать аккаунт</a></p></p>
 {% endif %}

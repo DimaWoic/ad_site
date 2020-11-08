@@ -70,7 +70,7 @@ class AdBoard(models.Model):
     image = models.ImageField(verbose_name='изображение', blank=True)
     title = models.CharField(max_length=150, verbose_name='заголовок')
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='город, край', null=True)
-    phone = PhoneNumberField(verbose_name='номер телефона')
+    phone = PhoneNumberField(verbose_name='номер телефона', unique=True)
     description = models.TextField(max_length=500, verbose_name='текст обявления')
     action = models.ForeignKey(AddAction, on_delete=models.CASCADE, verbose_name='вид объявления', null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='категория', null=True)

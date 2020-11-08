@@ -1,0 +1,9 @@
+{% extends 'board/base/base.html' %}
+
+{% block content %}
+<p>Настройки</p>
+
+<a href="{% url 'change_user_info' %}">Изменение личных данных</a>
+<a href="{% url 'change_password' %}">Изменение пароля</a>
+
+{% endblock %}

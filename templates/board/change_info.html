@@ -1,0 +1,15 @@
+{% extends 'board/base/base.html' %}
+
+
+
+{% block content %}
+
+<p>Имя: {{ user.first_name }}</p>
+<p>Фамилия: {{ user.last_name }} <a type="button" href="{% url 'change_user_name' user.pk%}">Изменить</a></p>
+<p>Электронная почта: {{ user.email }} <a type="button" href="{% url 'change_user_email' user.pk%}">Изменить</a></p>
+<p>Город: {{ user.city }} <a type="button" href="{% url 'change_user_city' user.pk%}">Изменить</a></p>
+<p>Номер телефона: {{ user.phone }} <a type="button" href="{% url 'change_user_phone' user.pk%}">Изменить</a></p>
+
+
+
+{% endblock %}
