@@ -29,7 +29,8 @@ class RegistrationView(CreateView):
         return reverse_lazy('reg_done')
 
 
-class RegisterDoneView(TemplateView):
+class RegisterDoneView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('login')
     template_name = 'board/register_done.html'
 
 
@@ -42,7 +43,8 @@ class BoardLogin(LoginView):
         return context
 
 
-class UserLogoutView(LogoutView, LoginRequiredMixin):
+class UserLogoutView(LoginRequiredMixin, LogoutView):
+    login_url = reverse_lazy('login')
     next_page = 'logout_done'
     template_name = 'board/logout.html'
 
@@ -51,19 +53,28 @@ class LogOutDone(TemplateView):
     template_name = 'board/logout.html'
 
 
-class UserLK(TemplateView, LoginRequiredMixin):
+class UserLK(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('login')
     template_name = 'board/lk.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_ads'] = AdBoard.objects.get(author=self.request.user)
+        return context
 
 
 class ChangeUserInfoView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('login')
     template_name = 'board/change_info.html'
 
 
 class SettingsView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('login')
     template_name = 'board/settings.html'
 
 
 class ChangeUserNameView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+    login_url = reverse_lazy('login')
     model = User
     form_class = forms.ChangeUserName
     success_message = 'Имя и фамилия изменены'
@@ -72,6 +83,7 @@ class ChangeUserNameView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
 
 
 class ChangeUserEmailView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+    login_url = reverse_lazy('login')
     model = User
     form_class = forms.ChangeUserEmailForm
     success_message = 'Электронная почта изменена'
@@ -80,6 +92,7 @@ class ChangeUserEmailView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
 
 
 class ChangeUserCityView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+    login_url = reverse_lazy('login')
     model = User
     form_class = forms.ChangeUserCityForm
     success_message = 'Ваш город изменён'
@@ -88,6 +101,7 @@ class ChangeUserCityView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
 
 
 class ChangeUserPhoneView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
+    login_url = reverse_lazy('login')
     model = User
     form_class = forms.ChangeUserPhoneForm
     success_message = 'Номер телефона изменён'
@@ -95,10 +109,31 @@ class ChangeUserPhoneView(LoginRequiredMixin, UpdateView, SuccessMessageMixin):
     template_name = 'board/change_phone.html'
 
 
-class ChangePasswordView(PasswordChangeView, LoginRequiredMixin):
+class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
+    login_url = reverse_lazy('login')
     template_name = 'board/change_password.html'
     success_url = reverse_lazy('pass_change_done')
 
 
-class ChangePasswordDoneView(PasswordChangeDoneView, LoginRequiredMixin):
+class ChangePasswordDoneView(LoginRequiredMixin, PasswordChangeDoneView):
+    login_url = reverse_lazy('login')
     template_name = 'board/password_change_done.html'
+
+
+class AdBoardCreateView(LoginRequiredMixin, CreateView):
+    model = AdBoard
+    success_url = reverse_lazy('ad_created')
+    template_name = 'board/add_create_add.html'
+    template_name_suffix = 'add'
+    fields = ['image', 'title', 'city', 'phone', 'description', 'action', 'category']
+    login_url = reverse_lazy('login')
+    context_object_name = 'adboard'
+
+    def get_form(self, **kwargs):
+        form = super().get_form(**kwargs)
+        form.instance.author = self.request.user
+        return form
+
+
+class AdBoardCreateDoneView(LoginRequiredMixin, TemplateView):
+    template_name = 'board/created.html'

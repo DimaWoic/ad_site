@@ -6,11 +6,11 @@
 </head>
 <body>
 {% if user.is_authenticated %}
-<p>Привет {{ user.first_name }} <a href="{% url 'logout' %}">Выйти из аккаунта</a> <a href="{% url 'lk' %}">Личный кабинет</a></p>
+<p>Привет {{ user.first_name }} <a href="{% url 'ad_create' %}">Создать объявление</a> <a href="{% url 'lk' %}">Личный кабинет</a> <a href="{% url 'logout' %}">Выйти из аккаунта</a></p>
 {% else %}
-<p><a href="{% url 'login' %}">Личный кабинет</a> <a href="{% url 'registration' %}">Создать аккаунт</a></p></p>
+<p><a href="{% url 'login' %}">Вход</a> <a href="{% url 'registration' %}">Регистрация</a></p></p>
 {% endif %}
-<p><h2>Сайт бесплатных объявлений</h2></p>
+<p><h2><a href="{% url 'main' %}">Сайт бесплатных объявлений</a></h2></p>
 
 {% block content %}
 

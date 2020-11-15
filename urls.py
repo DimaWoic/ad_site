@@ -17,4 +17,6 @@ urlpatterns = [
     path('change_user_phone/<int:pk>', views.ChangeUserPhoneView.as_view(), name='change_user_phone'),
     path('change_password/', views.ChangePasswordView.as_view(), name='change_password'),
     path('change_password_done/', views.ChangePasswordDoneView.as_view(), name='password_change_done'),
+    path('create_ad/', views.AdBoardCreateView.as_view(), name='ad_create'),
+    path('ad_created', views.AdBoardCreateDoneView.as_view(), name='ad_created'),
 ]

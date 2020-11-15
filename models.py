@@ -67,6 +67,7 @@ class AddAction(models.Model):
 
 
 class AdBoard(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default='')
     image = models.ImageField(verbose_name='изображение', blank=True)
     title = models.CharField(max_length=150, verbose_name='заголовок')
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='город, край', null=True)
